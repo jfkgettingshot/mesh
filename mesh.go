@@ -12,6 +12,7 @@ const (
 	MeshVersion1_01
 	MeshVersion2
 	MeshVersion3
+	MeshVersion3_01
 	MeshVersion4
 	MeshVersion4_1
 )
@@ -203,6 +204,8 @@ func MeshHeader(meshVersion uint8) (string, error) {
 		return "version 2.00", nil
 	case MeshVersion3:
 		return "version 3.00", nil
+	case MeshVersion3_01:
+		return "version 3.01", nil
 	case MeshVersion4:
 		return "version 4.00", nil
 	case MeshVersion4_1:
@@ -227,6 +230,8 @@ func MeshVersion(stream io.Reader) (uint8, error) {
 		return MeshVersion2, nil
 	case "version 3.00":
 		return MeshVersion3, nil
+	case "version 3.01":
+		return MeshVersion3_01, nil
 	case "version 4.00":
 		return MeshVersion4, nil
 	case "version 4.01":
@@ -253,7 +258,7 @@ func decodeMesh(stream io.Reader, version uint8) (Mesh, error) {
 	case MeshVersion2:
 		stream2 := MeshStream2{stream}
 		return stream2.LoadMesh()
-	case MeshVersion3:
+	case MeshVersion3, MeshVersion3_01:
 		stream3 := MeshStream3{stream}
 		return stream3.LoadMesh()
 	case MeshVersion4, MeshVersion4_1:
@@ -268,7 +273,7 @@ func EncodeMeshVersion(mesh Mesh, version uint8) Mesh {
 	switch version {
 	case MeshVersion2:
 		return mesh.ExportV2()
-	case MeshVersion3:
+	case MeshVersion3, MeshVersion3_01:
 		return mesh.ExportV3()
 	case MeshVersion4, MeshVersion4_1:
 		return mesh.ExportV4()
