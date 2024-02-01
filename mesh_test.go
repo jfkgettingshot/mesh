@@ -2,7 +2,7 @@ package mesh_test
 
 import (
 	"fmt"
-	"mesh"
+	"github.com/MojaveMF/mesh"
 	"os"
 	"testing"
 )
